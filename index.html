@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!--
+This is free and unencumbered software released into the public domain.
+
+Anyone is free to copy, modify, publish, use, compile, sell, or
+distribute this software, either in source code form or as a compiled
+binary, for any purpose, commercial or non-commercial, and by any
+means.
+
+In jurisdictions that recognize copyright laws, the author or authors
+of this software dedicate any and all copyright interest in the
+software to the public domain. We make this dedication for the benefit
+of the public at large and to the detriment of our heirs and
+successors. We intend this dedication to be an overt act of
+relinquishment in perpetuity of all present and future rights to this
+software under copyright law.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+For more information, please refer to <https://unlicense.org>
+-->
+<html>
+  <head>
+    <title>Data URI Encoder</title>
+    <style>
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        background: #00008B;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      }
+      #file-input-container {
+        height: 90%;
+        width: 90%;
+        margin: auto;
+        .btn {
+          display: flex;
+          top: 0;
+          padding: 10px;
+          border: 2px dashed;
+          border-radius: 10px;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+        }
+        [type="file"]#file-input {
+          visibility: hidden;
+          height:0;
+          width:0;
+        }
+        #file-input-text {
+          margin: auto;
+          font-size: 200%;
+        }
+      }
+      
+      #output-container {
+        position: relative;
+        top: 40px;
+        width: 90%;
+        margin: 0 auto;
+        #output {
+          border: 1px solid;
+          width: 100%;
+          height: 100px;
+          background-color: white;
+          padding: 5px;
+          border-radius: 10px
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="file-input-container">
+      <label for="file-input" class="btn">
+        <p id="file-input-text">
+          Choose file
+        </p>
+      </label>
+      <input type="file" onchange="file_change()" id="file-input">
+    </div>
+    <div id="output-container">
+      <div id="options" dir="rtl">
+        <button onclick="copy_url()">Copy</button>
+      </div>
+      <textarea id="output" placeholder="Upload a file to begin..." disabled></textarea>
+    </div>
+    <script>
+      function file_change(){
+        let file = document.getElementById("file-input").files[0];
+        let file_reader = new FileReader();
+        file_reader.addEventListener("load", function() {
+          document.getElementById("output").value = file_reader.result;
+        });
+        if (file) {
+          file_reader.readAsDataURL(file);
+        }
+      }
+
+      function copy_url() {
+        navigator.clipboard.writeText(document.getElementById("output").value)
+      }
+    </script>
+  </body>
+</html>
